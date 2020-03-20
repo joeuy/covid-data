@@ -1,0 +1,57 @@
+# This is a basic workflow to help you get started with Actions
+
+name: data-daily-update
+
+# Controls when the action will run. Triggers the workflow on push or pull request 
+# events but only for the master branch
+on:
+  push:
+    branches: [ master ]
+  schedule:
+    - cron: '0 0 * * *'
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Setup node
+    - name: setup node.js
+      uses: actions/setup-node@v1.1.0
+
+      # Checks out current repo
+    - uses: actions/checkout@v2
+
+      # Checkout Data repo
+    - uses: actions/checkout@master
+      with:
+        repository: CSSEGISandData/COVID-19
+        ref: refs/heads/master
+        path: 'external-data'
+
+    # - name: list files
+    #   run: ls -lhaR $GITHUB_WORKSPACE
+
+    - name: create cases
+      run: |
+        node .github/workflows/scripts/merge-cases.js
+
+    - name: create timeseries
+      run: |
+        cp external-data/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Confirmed.csv time-series.csv 
+
+    - name: commit files
+      run: |
+        git remote add github "https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git"
+        git config --global user.email "ci@git.com"
+        git config --global user.name "CI"
+        git add "cases.csv"
+        git add "time-series.csv"
+        git status
+        git commit -m "Update with latest data"
+        git push github HEAD:${GITHUB_REF}
+    
