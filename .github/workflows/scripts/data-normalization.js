@@ -39,4 +39,69 @@ const countryMappings = {
 
 module.exports.country = function (country) {
     return countryMappings[country] || country;
+};
+
+const usStateMap = {
+    alaska: { name: "Alaska", lat: 63.588753, long: -154.493062, code: "AK" },
+    alabama: { name: "Alabama", lat: 32.318231, long: -86.902298, code: "AL" },
+    arkansas: { name: "Arkansas", lat: 35.20105, long: -91.831833, code: "AR" },
+    arizona: { name: "Arizona", lat: 34.048928, long: -111.093731, code: "AZ" },
+    california: { name: "California", lat: 36.778261, long: -119.417932, code: "CA" },
+    colorado: { name: "Colorado", lat: 39.550051, long: -105.782067, code: "CO" },
+    connecticut: { name: "Connecticut", lat: 41.603221, long: -73.087749, code: "CT" },
+    'district of columbia': { name: "District of Columbia", lat: 38.905985, long: -77.033418, code: "DC" },
+    delaware: { name: "Delaware", lat: 38.910832, long: -75.52767, code: "DE" },
+    florida: { name: "Florida", lat: 27.664827, long: -81.515754, code: "FL" },
+    georgia: { name: "Georgia", lat: 32.157435, long: -82.907123, code: "GA" },
+    hawaii: { name: "Hawaii", lat: 19.898682, long: -155.665857, code: "HI" },
+    iowa: { name: "Iowa", lat: 41.878003, long: -93.097702, code: "IA" },
+    idaho: { name: "Idaho", lat: 44.068202, long: -114.742041, code: "ID" },
+    illinois: { name: "Illinois", lat: 40.633125, long: -89.398528, code: "IL" },
+    indiana: { name: "Indiana", lat: 40.551217, long: -85.602364, code: "IN" },
+    kansas: { name: "Kansas", lat: 39.011902, long: -98.484246, code: "KS" },
+    kentucky: { name: "Kentucky", lat: 37.839333, long: -84.270018, code: "KY" },
+    louisiana: { name: "Louisiana", lat: 31.244823, long: -92.145024, code: "LA" },
+    massachusetts: { name: "Massachusetts", lat: 42.407211, long: -71.382437, code: "MA" },
+    maryland: { name: "Maryland", lat: 39.045755, long: -76.641271, code: "MD" },
+    maine: { name: "Maine", lat: 45.253783, long: -69.445469, code: "ME" },
+    michigan: { name: "Michigan", lat: 44.314844, long: -85.602364, code: "MI" },
+    minnesota: { name: "Minnesota", lat: 46.729553, long: -94.6859, code: "MN" },
+    missouri: { name: "Missouri", lat: 37.964253, long: -91.831833, code: "MO" },
+    mississippi: { name: "Mississippi", lat: 32.354668, long: -89.398528, code: "MS" },
+    montana: { name: "Montana", lat: 46.879682, long: -110.362566, code: "MT" },
+    'north carolina': { name: "North Carolina", lat: 35.759573, long: -79.0193, code: "NC" },
+    'north dakota': { name: "North Dakota", lat: 47.551493, long: -101.002012, code: "ND" },
+    nebraska: { name: "Nebraska", lat: 41.492537, long: -99.901813, code: "NE" },
+    'new hampshire': { name: "New Hampshire", lat: 43.193852, long: -71.572395, code: "NH" },
+    'new jersey': { name: "New Jersey", lat: 40.058324, long: -74.405661, code: "NJ" },
+    'new mexico': { name: "New Mexico", lat: 34.97273, long: -105.032363, code: "NM" },
+    nevada: { name: "Nevada", lat: 38.80261, long: -116.419389, code: "NV" },
+    'new york': { name: "New York", lat: 43.299428, long: -74.217933, code: "NY" },
+    ohio: { name: "Ohio", lat: 40.417287, long: -82.907123, code: "OH" },
+    oklahoma: { name: "Oklahoma", lat: 35.007752, long: -97.092877, code: "OK" },
+    oregon: { name: "Oregon", lat: 43.804133, long: -120.554201, code: "OR" },
+    pennsylvania: { name: "Pennsylvania", lat: 41.203322, long: -77.194525, code: "PA" },
+    'puerto rico': { name: "Puerto Rico", lat: 18.220833, long: -66.590149, code: "PR" },
+    'rhode island': { name: "Rhode Island", lat: 41.580095, long: -71.477429, code: "RI" },
+    'south carolina': { name: "South Carolina", lat: 33.836081, long: -81.163725, code: "SC" },
+    'south dakota': { name: "South Dakota", lat: 43.969515, long: -99.901813, code: "SD" },
+    tennessee: { name: "Tennessee", lat: 35.517491, long: -86.580447, code: "TN" },
+    texas: { name: "Texas", lat: 31.968599, long: -99.901813, code: "TX" },
+    utah: { name: "Utah", lat: 39.32098, long: -111.093731, code: "UT" },
+    virginia: { name: "Virginia", lat: 37.431573, long: -78.656894, code: "VA" },
+    vermont: { name: "Vermont", lat: 44.558803, long: -72.577841, code: "VT" },
+    washington: { name: "Washington", lat: 47.751074, long: -120.740139, code: "WA" },
+    wisconsin: { name: "Wisconsin", lat: 43.78444, long: -88.787868, code: "WI" },
+    'west virginia': { name: "West Virginia", lat: 38.597626, long: -80.454903, code: "WV" },
+    wyoming: { name: "Wyoming", lat: 43.075968, long: -107.290284, code: "WY" },
+};
+
+
+module.exports.USState = function (country, state) {
+    if (country === 'United States' && state) {
+        const mappedState = usStateMap[state.toLowerCase()];
+        if (mappedState) return mappedState;
+    }
+
+    return { name: state };
 }

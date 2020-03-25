@@ -5,12 +5,16 @@ module.exports.headers = ['Province/State', 'Country/Region', 'Last Update', 'Co
 module.exports.fxMap = {
 
     '03-01-2020': (_case, date) => {
+        const country = normalize.country(_case['1']);
+        const state = _case['0'];
+        const mappedState = normalize.USState(country, state);
+
         return [
             //Province/State
-            _case['0'],
+            mappedState.name,
 
             //Country/Region
-            normalize.country(_case['1']),
+            country,
 
             //Last Update 
             '2020-01-01',
@@ -25,10 +29,10 @@ module.exports.fxMap = {
             _case['5'],
 
             //Latitude
-            _case['6'],
+            mappedState.lat || _case['6'],
 
             //Longitude
-            _case['7'],
+            mappedState.long || _case['7'],
 
             //03-01-2020
             date,
@@ -36,9 +40,13 @@ module.exports.fxMap = {
     },
 
     '03-22-2020': (_case, date) => {
+        const country = normalize.country(_case['3']);
+        const state = _case['2'];
+        const mappedState = normalize.USState(country, state);
+
         return [
             //Province/State
-            _case['2'],
+            mappedState.name,
 
             //Country/Region
             normalize.country(_case['3']),
@@ -56,10 +64,10 @@ module.exports.fxMap = {
             _case['9'],
 
             //Latitude
-            _case['5'],
+            mappedState.lat || _case['5'],
 
             //Longitude
-            _case['6'],
+            mappedState.long || _case['6'],
 
             //03-01-2020
             date,
