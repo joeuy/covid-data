@@ -1,31 +1,47 @@
 const fs = require('fs');
 const path = require('path');
+const readCsv = require('./read-csv');
+const createCsvWriter = require('csv-writer').createArrayCsvWriter;
+const mapping = require('./mapping-fxs');
 
 const caseFolder = 'external-data/csse_covid_19_data/csse_covid_19_daily_reports';
 
-const casesContent = fs
-    .readdirSync(caseFolder)
-    .filter(fileName => fileName.indexOf('.csv') >= 0)
-    .filter(fileName => '03-01-2020.csv'.localeCompare(fileName) <= 0)
-    .map((fileName, index) => {
-        const [contentDate] = fileName.split('.', 1);
-        let content = fs.readFileSync(path.join(caseFolder, fileName), 'utf-8').trim();
+function getCaseFiles() {
+    return fs
+        .readdirSync(caseFolder)
+        .filter(fileName => fileName.indexOf('.csv') >= 0)
+        .filter(fileName => '03-01-2020.csv'.localeCompare(fileName) <= 0)
+        .map(fileName => path.resolve(caseFolder, fileName));
+}
 
-        // remove first line
-        const firstLineEnd = content.indexOf('\n');
-        content = index === 0 ? content : content.substr(firstLineEnd + 1);
+async function run() {
+    const caseFilesNames = getCaseFiles();
 
-        // add date
-        content = content.replace(/\r?\n/g, `,${contentDate}\r\n`);
+    const caseFiles = await Promise.all(
+        caseFilesNames.map(name => readCsv(name))
+    );
 
-        // normalize country names
-        content = content.replace(/Mainland China,/g, 'China,');
-        content = content.replace(/,US,/g, ',United States,');
+    const records = [];
+    const csvWriter = createCsvWriter({
+        header: mapping.headers,
+        path: 'cases.csv'
+    });
 
-        // add date to last line
-        content = content + `,${contentDate}`;
+    const mappingFunctionNames = Object.keys(mapping.fxMap).sort();
 
-        return content;
-    }).join('\n');
+    caseFiles.forEach((caseFile, i) => {
+        const date = path.basename(caseFilesNames[i], '.csv');
+        const [mappingFxName] = mappingFunctionNames.filter(fx => fx.localeCompare(date) <= 0).slice(-1);
+        const mappingFx = mapping.fxMap[mappingFxName];
 
-fs.writeFileSync('cases.csv', casesContent);
+        console.log(date, mappingFxName);
+
+        caseFile.forEach((_case) => {
+            records.push(mappingFx(_case, date));
+        });
+    });
+
+    csvWriter.writeRecords(records);
+}
+
+run();

@@ -1,0 +1,42 @@
+const countryMappings = {
+    'US': 'United States',
+    'Mainland China': 'China',
+    'Ivory Coast': "Côte d'Ivoire",
+    'Côte D’Ivoire': "Côte d'Ivoire",
+    'UK': 'United Kingdom',
+    'Others': 'China',
+    'North Macedonia': 'Macedonia',
+    'North Ireland': 'Ireland',
+    'Palestine': 'Palestinian Territories',
+    'Saint Barthelemy': 'France',
+    'Republic of Ireland': 'Ireland',
+    'St. Martin': 'France',
+    'Iran (Islamic Republic of)': 'Iran',
+    'Republic of Korea': 'North Korea',
+    'Hong Kong SAR': 'Hong Kong',
+    'Taipei and environs': 'Taiwan',
+    'Viet Nam': 'Vietnam',
+    'occupied Palestinian territory': 'Palestinian Territories',
+    'Macao SAR': 'Macau',
+    'Russian Federation': 'Russia',
+    'Republic of Moldova': 'Moldova',
+    'Saint Martin': 'France',
+    'Korea, South': 'South Korea',
+    'Cruise Ship': 'China',
+    'Czechia': 'Czech Republic',
+    'Taiwan*': 'Taiwan',
+    'Congo (Kinshasa)': 'Congo [DRC]',
+    "Cote d'Ivoire": "Côte d'Ivoire",
+    'Curacao': 'Netherlands',
+    'Eswatini': 'Swaziland',
+    'Congo (Brazzaville)': 'Congo [DRC]',
+    'Republic of the Congo': 'Congo [Republic]',
+    'The Bahamas': 'Bahamas',
+    'The Gambia': 'Gambia',
+    'Gambia, The': 'Gambia',
+    'Bahamas, The': 'Bahamas'
+};
+
+module.exports.country = function (country) {
+    return countryMappings[country] || country;
+}

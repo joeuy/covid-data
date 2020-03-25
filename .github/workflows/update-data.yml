@@ -22,9 +22,12 @@ jobs:
       # Setup node
     - name: setup node.js
       uses: actions/setup-node@v1.1.0
-
+      
       # Checks out current repo
     - uses: actions/checkout@v2
+  
+    - name: Install Dependencies
+      run: npm install
 
       # Checkout Data repo
     - uses: actions/checkout@master
@@ -39,10 +42,6 @@ jobs:
     - name: create cases
       run: |
         node .github/workflows/scripts/merge-cases.js
-
-    - name: create timeseries
-      run: |
-        cp external-data/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Confirmed.csv time-series.csv 
 
     - name: commit files
       run: |

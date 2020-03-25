@@ -1,0 +1,23 @@
+{
+  "name": "covid-19-data",
+  "version": "1.0.0",
+  "description": "data aggregation to track covid-19",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joeuy/covid-data.git"
+  },
+  "author": "Jose",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/joeuy/covid-data/issues"
+  },
+  "homepage": "https://github.com/joeuy/covid-data#readme",
+  "dependencies": {
+    "csv-parser": "2.3.2",
+    "csv-writer": "1.6.0"
+  }
+}
